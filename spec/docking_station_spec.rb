@@ -13,17 +13,16 @@ let(:bike) { Bike.new }
     expect(bike).to be_working
   end
 
+  before {docking_station.instance_variable_set(:@bikes, [Bike.new])}
   it "dock bike" do
-    docking_station.dock_bike(bike)
-    expect(docking_station.bike).to eq bike
-    expect(docking_station.bike).to be_instance_of(Bike)
+    expect(docking_station.bikes[0]).to be_instance_of(Bike)
   end
 
+  before {docking_station.instance_variable_set(:@bikes, [Bike.new])}
   it "is there a bike?" do
-    docking_station.dock_bike(bike)
-    expect(docking_station.bike).to be_instance_of(Bike)
+    expect(docking_station.has_bike).to eq true
     docking_station.release_bike
-    expect(docking_station.bike).to eq false
+    expect(docking_station.has_bike).to eq false
   end
 
   it "release_bike raises error if there is no bike" do
