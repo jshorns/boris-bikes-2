@@ -13,21 +13,27 @@ let(:bike) { Bike.new }
     expect(bike).to be_working
   end
 
-  before {docking_station.instance_variable_set(:@bikes, [Bike.new])}
-  it "dock bike" do
-    expect(docking_station.bikes[0]).to be_instance_of(Bike)
-  end
+  context "when there is one bike in the docking station" do
+    before {docking_station.instance_variable_set(:@bikes, [Bike.new])}
+    it "dock bike" do
+      expect(docking_station.bikes[0]).to be_instance_of(Bike)
+    end
 
-  before {docking_station.instance_variable_set(:@bikes, [Bike.new])}
-  it "is there a bike?" do
-    expect(docking_station.has_bike).to eq true
-    docking_station.release_bike
-    expect(docking_station.has_bike).to eq false
-  end
+    it "is there a bike?" do
+      expect(docking_station.has_bike).to eq true
+      docking_station.release_bike
+      expect(docking_station.has_bike).to eq false
+    end
 
-  it "release_bike raises error if there is no bike" do
-    docking_station.release_bike
-    expect{ docking_station.release_bike }.to raise_error(NoBikeException)
+    it "release_bike raises error if there is no bike" do
+      docking_station.release_bike
+      expect{ docking_station.release_bike }.to raise_error(NoBikeException)
+    end
+
+    it "dock_bike raises error if there are too many bikes" do
+      expect{ docking_station.dock_bike(Bike.new) }.to raise_error(TooManyBikesException)
+    end
+    
   end
 
 end
