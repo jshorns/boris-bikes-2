@@ -15,7 +15,14 @@ let(:bike) { Bike.new }
 
   it "dock bike" do
     docking_station.dock_bike(bike)
-    expect(docking_station.has_bike).to eq bike
-    expect(docking_station.has_bike).to be_instance_of(Bike)
+    expect(docking_station.bike).to eq bike
+    expect(docking_station.bike).to be_instance_of(Bike)
+  end
+
+  it "is there a bike?" do
+    docking_station.dock_bike(bike)
+    expect(docking_station.bike).to be_instance_of(Bike)
+    docking_station.release_bike
+    expect(docking_station.bike).to eq false
   end
 end
