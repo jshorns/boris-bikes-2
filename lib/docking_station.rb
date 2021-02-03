@@ -2,7 +2,7 @@ class DockingStation
   attr_reader :has_bike
 
   def initialize
-    @has_bike = true
+    @has_bike = nil
   end
 
   def release_bike
@@ -11,6 +11,6 @@ class DockingStation
   end
 
   def dock_bike(bike)
-    @has_bike = true
+    @has_bike = bike
   end
 end

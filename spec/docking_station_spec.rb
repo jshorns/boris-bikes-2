@@ -1,4 +1,5 @@
 require 'docking_station'
+require 'bike'
 
 describe DockingStation do
 subject(:docking_station) { described_class.new }
@@ -14,6 +15,7 @@ let(:bike) { Bike.new }
 
   it "dock bike" do
     docking_station.dock_bike(bike)
-    expect(docking_station.has_bike).to eq true
+    expect(docking_station.has_bike).to eq bike
+    expect(docking_station.has_bike).to be_instance_of(Bike)
   end
 end
