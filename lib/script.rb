@@ -1,2 +1,4 @@
-require "./bike.rb"
-require "./docking_station.rb"
+path = File.expand_path(File.dirname(__FILE__)).to_s
+
+require "#{path}/bike.rb"
+require "#{path}/docking_station.rb"
