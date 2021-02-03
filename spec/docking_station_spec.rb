@@ -25,4 +25,10 @@ let(:bike) { Bike.new }
     docking_station.release_bike
     expect(docking_station.bike).to eq false
   end
+
+  it "release_bike raises error if there is no bike" do
+    docking_station.release_bike
+    expect{ docking_station.release_bike }.to raise_error(NoBikeException)
+  end
+
 end
