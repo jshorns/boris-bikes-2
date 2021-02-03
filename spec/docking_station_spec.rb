@@ -8,6 +8,9 @@ subject(:docking_station) {described_class.new}
 
   it "bike working?" do
     expect(docking_station.release_bike).to be_instance_of(Bike)
-    expect(docking_station.release_bike).to be_working
+    
+    bike = docking_station.release_bike
+    expect(bike).to be_working
   end
+  
 end
