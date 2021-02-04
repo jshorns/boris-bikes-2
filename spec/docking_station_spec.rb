@@ -97,4 +97,11 @@ let(:broken_bike) { Bike.new.broken }
       expect(docking_station.release_bike).to be_working
     end
   end
+
+  describe '#dock_bike' do
+    it 'accepts broken bike' do
+      docking_station.dock_bike(broken_bike)
+      expect(docking_station.bikes).to include(broken_bike)
+    end
+  end
 end

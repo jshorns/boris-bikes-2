@@ -31,8 +31,8 @@ class DockingStation
   def release_bike
     no_bike_error
     all_broken?
-    bikes.each do |bike|
-      return bike if bike.working?
+    bikes.each_with_index do |bike, i|
+      return bikes.slice!(i) if bike.working?
     end
   end
 
