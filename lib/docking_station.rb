@@ -38,10 +38,18 @@ class DockingStation
   private
 
   def no_bike_error
-    raise NoBikeException if bikes.empty?
+    raise NoBikeException if bikes_empty?
   end
 
   def bikes_full_error
-    raise TooManyBikesException if bikes.count >= max_bikes
+    raise TooManyBikesException if bikes_full?
+  end
+
+  def bikes_full?
+    bikes.count >= max_bikes
+  end
+
+  def bikes_empty?
+    bikes.empty?
   end
 end

@@ -48,4 +48,17 @@ let(:bike) { Bike.new }
       end
     end
   end
+
+  describe '#bikes_full?' do
+    it 'returns true if bikes is full' do
+      docking_station.max_bikes.times { docking_station.dock_bike(bike) }
+      expect(docking_station.send(:bikes_full?)).to be true
+    end
+  end
+
+  describe '#bikes_empty?' do
+    it 'returns true if bikes is empty' do
+      expect(docking_station.send(:bikes_empty?)).to be true
+    end
+  end
 end
