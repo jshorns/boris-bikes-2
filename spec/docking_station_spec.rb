@@ -8,13 +8,6 @@ let(:bike) { Bike.new }
   it { is_expected.to respond_to :release_bike}
   it { is_expected.to respond_to(:dock_bike).with(1).argument}
 
-
-
-  it "dock_bike raises error if there are too many bikes" do
-    20.times { docking_station.dock_bike(Bike.new) }
-    expect{ docking_station.dock_bike(Bike.new) }.to raise_error(TooManyBikesException)
-  end
-
   context "when there is one bike in the docking station" do
     before {docking_station.instance_variable_set(:@bikes, [Bike.new])}
 
@@ -37,8 +30,22 @@ let(:bike) { Bike.new }
       docking_station.release_bike
       expect{ docking_station.release_bike }.to raise_error(NoBikeException)
     end
-
   end
 
+  describe '#no_bike_error' do
+    context 'when bikes is empty' do
+      it 'raises error' do
+        expect { subject.send(:no_bike_error) }.to raise_error(NoBikeException)
+      end
+    end
+  end
 
+  describe '#bikes_full_error' do
+    context 'when bikes is full' do
+      it 'raises error' do
+        docking_station.max_bikes.times { docking_station.dock_bike(bike) }
+        expect { docking_station.send(:bikes_full_error) }.to raise_error(TooManyBikesException)
+      end
+    end
+  end
 end

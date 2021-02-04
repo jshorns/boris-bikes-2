@@ -13,7 +13,7 @@ class TooManyBikesException < StandardError
 end
 
 class DockingStation
-  attr_reader :bikes
+  attr_reader :bikes, :max_bikes
 
   def initialize max_bikes = 20
     @bikes = []
@@ -22,22 +22,26 @@ class DockingStation
   end
 
   def release_bike
-    if @bikes.length == 0
-      raise NoBikeException.new
-    else
-      @bikes.pop
-    end
+    no_bike_error
+    @bikes.pop
   end
 
   def dock_bike(bike)
-    if @bikes.length < @max_bikes
-      @bikes.push(bike)
-    else
-      raise TooManyBikesException.new
-    end
+    bikes_full_error
+    @bikes.push(bike)
   end
 
   def has_bike
     !@bikes.empty?
+  end
+
+  private
+
+  def no_bike_error
+    raise NoBikeException if bikes.empty?
+  end
+
+  def bikes_full_error
+    raise TooManyBikesException if bikes.count >= max_bikes
   end
 end
