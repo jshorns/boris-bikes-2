@@ -15,9 +15,9 @@ end
 class DockingStation
   attr_reader :bikes
 
-  def initialize max_bikes = 1
+  def initialize max_bikes = 20
     @bikes = []
-    @bikes.push(Bike.new())
+  #  @bikes.push(Bike.new())
     @max_bikes = max_bikes
   end
 

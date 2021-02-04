@@ -6,15 +6,23 @@ subject(:docking_station) { described_class.new }
 let(:bike) { Bike.new }
 
   it { is_expected.to respond_to :release_bike}
-  it { is_expected.to respond_to :dock_bike}
+  it { is_expected.to respond_to(:dock_bike).with(1).argument}
 
-  it "bike working?" do
-    expect(docking_station.release_bike).to be_instance_of(Bike)
-    expect(bike).to be_working
+
+
+  it "dock_bike raises error if there are too many bikes" do
+    20.times { docking_station.dock_bike(Bike.new) }
+    expect{ docking_station.dock_bike(Bike.new) }.to raise_error(TooManyBikesException)
   end
 
   context "when there is one bike in the docking station" do
     before {docking_station.instance_variable_set(:@bikes, [Bike.new])}
+
+    it "bike working?" do
+      expect(docking_station.release_bike).to be_instance_of(Bike)
+      expect(bike).to be_working
+    end
+
     it "dock bike" do
       expect(docking_station.bikes[0]).to be_instance_of(Bike)
     end
@@ -30,10 +38,7 @@ let(:bike) { Bike.new }
       expect{ docking_station.release_bike }.to raise_error(NoBikeException)
     end
 
-    it "dock_bike raises error if there are too many bikes" do
-      expect{ docking_station.dock_bike(Bike.new) }.to raise_error(TooManyBikesException)
-    end
-    
   end
+
 
 end
