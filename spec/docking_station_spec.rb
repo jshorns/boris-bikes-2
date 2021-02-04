@@ -3,8 +3,8 @@ require 'bike'
 
 describe DockingStation do
 subject(:docking_station) { described_class.new }
-  let(:bike) { double :bike }
-  let(:broken_bike) { double :broken_bike }
+  let(:bike) { double(:bike, :working? => true) }
+  let(:broken_bike) { double(:broken_bike, :working? => false) }
 
   it { is_expected.to respond_to :release_bike}
   it { is_expected.to respond_to(:dock_bike).with(1).argument}
@@ -78,7 +78,6 @@ subject(:docking_station) { described_class.new }
   describe '#all_broken?' do
     context 'when bike is broken' do
       it 'does not release bike' do
-        allow(broken_bike).to receive(:working?).and_return(false)
         docking_station.dock_bike(broken_bike)
         expect { docking_station.send(:all_broken?) }.to raise_error NoWorkingBikes
       end
@@ -87,8 +86,6 @@ subject(:docking_station) { described_class.new }
 
   describe '#release_bike' do
     it 'does not release bike if all broken' do
-      allow(bike).to receive(:working?).and_return(true)
-      allow(broken_bike).to receive(:working?).and_return(false)
       docking_station.dock_bike(broken_bike)
       expect { docking_station.release_bike }.to raise_error NoWorkingBikes
     end
@@ -96,8 +93,6 @@ subject(:docking_station) { described_class.new }
 
   describe '#release_bike' do
     it 'does not release bike if all broken' do
-      allow(broken_bike).to receive(:working?).and_return(false)
-      allow(bike).to receive(:working?).and_return(true)
       [broken_bike, bike, broken_bike].each { |bike| docking_station.dock_bike(bike) }
       expect(docking_station.release_bike).to be_working
     end
@@ -105,7 +100,6 @@ subject(:docking_station) { described_class.new }
 
   describe '#dock_bike' do
     it 'accepts broken bike' do
-      allow(broken_bike).to receive(:working?).and_return(false)
       docking_station.dock_bike(broken_bike)
       expect(docking_station.bikes).to include(broken_bike)
     end
