@@ -4,6 +4,7 @@ require 'bike'
 describe DockingStation do
 subject(:docking_station) { described_class.new }
 let(:bike) { Bike.new }
+let(:broken_bike) { Bike.new.broken }
 
   it { is_expected.to respond_to :release_bike}
   it { is_expected.to respond_to(:dock_bike).with(1).argument}
@@ -20,7 +21,7 @@ let(:bike) { Bike.new }
       expect(docking_station.bikes[0]).to be_instance_of(Bike)
     end
 
-    it "is there a bike?" do
+    it "has bike?" do
       expect(docking_station.has_bike).to eq true
       docking_station.release_bike
       expect(docking_station.has_bike).to eq false
@@ -74,4 +75,26 @@ let(:bike) { Bike.new }
     end
   end
 
+  describe '#all_broken?' do
+    context 'when bike is broken' do
+      it 'does not release bike' do
+        docking_station.dock_bike(broken_bike)
+        expect { docking_station.send(:all_broken?) }.to raise_error NoWorkingBikes
+      end
+    end
+  end
+
+  describe '#release_bike' do
+    it 'does not release bike if all broken' do
+      docking_station.dock_bike(broken_bike)
+      expect { docking_station.release_bike }.to raise_error NoWorkingBikes
+    end
+  end
+
+  describe '#release_bike' do
+    it 'does not release bike if all broken' do
+      [broken_bike, bike, broken_bike].each { |bike| docking_station.dock_bike(bike) }
+      expect(docking_station.release_bike).to be_working
+    end
+  end
 end

@@ -12,23 +12,33 @@ class TooManyBikesException < StandardError
   end
 end
 
+class NoWorkingBikes < StandardError
+  def initialize(msg = 'No working Bikes! Sorry :(', exception_type = 'custom')
+    @exception_type = exception_type
+    super(msg)
+  end
+end
+
 class DockingStation
   attr_reader :bikes, :capacity
   DEFAULT_CAPACITY = 20
+
   def initialize(capacity = DEFAULT_CAPACITY)
     @bikes = []
     @capacity = capacity
-  #  @bikes.push(Bike.new())
   end
 
   def release_bike
     no_bike_error
-    @bikes.pop
+    all_broken?
+    bikes.each do |bike|
+      return bike if bike.working?
+    end
   end
 
   def dock_bike(bike)
     bikes_full_error
-    @bikes.push(bike)
+    bikes.push(bike)
   end
 
   def has_bike
@@ -46,10 +56,14 @@ class DockingStation
   end
 
   def bikes_full?
-    bikes.count >= @capacity
+    bikes.count >= capacity
   end
 
   def bikes_empty?
     bikes.empty?
+  end
+
+  def all_broken?
+    raise NoWorkingBikes if bikes.none? { |bike| bike.working? }
   end
 end
