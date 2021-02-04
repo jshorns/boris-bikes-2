@@ -43,7 +43,7 @@ let(:bike) { Bike.new }
   describe '#bikes_full_error' do
     context 'when bikes is full' do
       it 'raises error' do
-        DockingStation::DEFAULT_CAPACITY.times { docking_station.dock_bike(bike) }
+        docking_station.capacity.times { docking_station.dock_bike(bike) }
         expect { docking_station.send(:bikes_full_error) }.to raise_error(TooManyBikesException)
       end
     end
@@ -51,7 +51,7 @@ let(:bike) { Bike.new }
 
   describe '#bikes_full?' do
     it 'returns true if bikes is full' do
-      DockingStation::DEFAULT_CAPACITY.times { docking_station.dock_bike(bike) }
+      docking_station.capacity.times { docking_station.dock_bike(bike) }
       expect(docking_station.send(:bikes_full?)).to be true
     end
   end
@@ -61,4 +61,17 @@ let(:bike) { Bike.new }
       expect(docking_station.send(:bikes_empty?)).to be true
     end
   end
+
+  describe 'user can set docking station capacity' do
+    it 'sets capacity to 40 when 40 passed as initialize argument' do
+      expect(described_class.new(40).capacity).to eq 40
+    end
+  end
+
+  describe 'default capacity of docking station is 20' do
+    it 'new instance of docking station with no args has 20 capacity' do
+      expect(described_class.new.capacity).to eq 20
+    end
+  end
+
 end

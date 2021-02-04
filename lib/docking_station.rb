@@ -13,10 +13,11 @@ class TooManyBikesException < StandardError
 end
 
 class DockingStation
-  attr_reader :bikes, :max_bikes
+  attr_reader :bikes, :capacity
   DEFAULT_CAPACITY = 20
-  def initialize
+  def initialize(capacity = DEFAULT_CAPACITY)
     @bikes = []
+    @capacity = capacity
   #  @bikes.push(Bike.new())
   end
 
@@ -45,7 +46,7 @@ class DockingStation
   end
 
   def bikes_full?
-    bikes.count >= DEFAULT_CAPACITY
+    bikes.count >= @capacity
   end
 
   def bikes_empty?
