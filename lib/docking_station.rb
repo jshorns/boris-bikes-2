@@ -14,11 +14,10 @@ end
 
 class DockingStation
   attr_reader :bikes, :max_bikes
-
-  def initialize max_bikes = 20
+  DEFAULT_CAPACITY = 20
+  def initialize
     @bikes = []
   #  @bikes.push(Bike.new())
-    @max_bikes = max_bikes
   end
 
   def release_bike
@@ -46,7 +45,7 @@ class DockingStation
   end
 
   def bikes_full?
-    bikes.count >= max_bikes
+    bikes.count >= DEFAULT_CAPACITY
   end
 
   def bikes_empty?

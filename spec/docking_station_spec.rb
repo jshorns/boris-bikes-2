@@ -43,7 +43,7 @@ let(:bike) { Bike.new }
   describe '#bikes_full_error' do
     context 'when bikes is full' do
       it 'raises error' do
-        docking_station.max_bikes.times { docking_station.dock_bike(bike) }
+        DockingStation::DEFAULT_CAPACITY.times { docking_station.dock_bike(bike) }
         expect { docking_station.send(:bikes_full_error) }.to raise_error(TooManyBikesException)
       end
     end
@@ -51,7 +51,7 @@ let(:bike) { Bike.new }
 
   describe '#bikes_full?' do
     it 'returns true if bikes is full' do
-      docking_station.max_bikes.times { docking_station.dock_bike(bike) }
+      DockingStation::DEFAULT_CAPACITY.times { docking_station.dock_bike(bike) }
       expect(docking_station.send(:bikes_full?)).to be true
     end
   end
