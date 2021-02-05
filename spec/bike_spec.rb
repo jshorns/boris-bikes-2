@@ -1,4 +1,7 @@
+require 'docking_station'
 require 'bike'
+require 'garage'
+require 'van'
 
 describe Bike do
   subject(:bike) { described_class.new }
