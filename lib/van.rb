@@ -1,6 +1,7 @@
-require 'bike_container'
+require_relative 'bike_container'
 
 class Van
+  DEFAULT_CAPACITY = 10
   include BikeContainer
 
   def pick_up_for_repair(docking_station)

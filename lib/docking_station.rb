@@ -1,3 +1,5 @@
+require_relative 'bike_container'
+
 class NoBikeException < StandardError
   def initialize(msg="There is no bike availlable", exception_type="custom")
     @exception_type = exception_type
@@ -20,9 +22,8 @@ class NoWorkingBikes < StandardError
 end
 
 class DockingStation
-  attr_reader :bikes, :capacity
   DEFAULT_CAPACITY = 20
-
+  include BikeContainer
   def initialize(capacity = DEFAULT_CAPACITY)
     @bikes = []
     @capacity = capacity
