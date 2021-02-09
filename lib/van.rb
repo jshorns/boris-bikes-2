@@ -1,42 +1,22 @@
+require 'bike_container'
+
 class Van
-  attr_reader :bikes
-
-  def initialize
-    @bikes = []
-  end
-
-  def take_broken(obj)
-    obj.select {|bike| !bike.working? }
-  end
-
-  def take_fixed(obj)
-    obj.select {|bike| bike.working? }
-  end
-
-  def leave_broken(obj)
-    obj.select! {|bike| !bike.working? }
-  end
-
-  def leave_fixed(obj)
-    obj.select! {|bike| bike.working? }
-  end
+  include BikeContainer
 
   def pick_up_for_repair(docking_station)
-    @bikes << take_broken(docking_station.bikes)
-    @bikes.flatten!
-    leave_fixed(docking_station.bikes)
+    take_broken(self, docking_station)
   end
 
   def drop_off_for_repair(garage)
-    garage.bikes << take_broken(@bikes)
-    garage.bikes.flatten!
-    leave_fixed(@bikes)
+    take_broken(garage, self)
   end
 
   def pick_up_for_return(garage)
-    @bikes << take_fixed(garage.bikes)
-    @bikes.flatten!
-    leave_broken(garage.bikes)
+    take_fixed(self, garage)
+  end
+
+  def drop_off_when_fixed(docking_station)
+    take_fixed(docking_station, self)
   end
 
 end

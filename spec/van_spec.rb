@@ -28,7 +28,6 @@ subject(:van) { described_class.new }
 
   it 'picks up fixed bikes from garage' do
     van.pick_up_for_return(garage)
-    puts garage.bikes
     expect(van.bikes).to eq [bike, bike, bike]
     expect(garage.bikes).to eq []
   end
